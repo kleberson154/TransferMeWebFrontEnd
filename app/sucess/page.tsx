@@ -1,18 +1,16 @@
 'use client'
-import { useState } from 'react'
-import { apiRequest } from '@/lib/api'
 import Image from 'next/image'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function Page() {
+  useAuth()
+  const typeAction = window.sessionStorage.getItem('typeAction')
+
   return (
     <main className="p-6 flex flex-col items-center justify-start min-h-screen bg-indigo-50 text-white py-16">
-      <span className="text-4xl font-bold flex justify-center items-center">
-        <Image src="/images/logo.png" alt="Logo" width={70} height={50} />
-        <h1 className="ml-2 text-2xl sm:text-4xl font-medium text-indigo-400">
-          TransferMe
-        </h1>
-      </span>
+      <Logo />
       <div className="success mt-8 flex flex-col items-center">
         <Image
           src="/images/success.png"
@@ -22,7 +20,7 @@ export default function Page() {
         />
         <h1 className="text-4xl font-bold text-indigo-400 mt-8">Sucesso!</h1>
         <p className="text-sm text-black py-8 ">
-          Depósito realizado com sucesso!
+          {typeAction} realizado com sucesso!
         </p>
         <Link
           href="/home"
