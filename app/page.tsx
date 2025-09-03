@@ -48,13 +48,11 @@ export default function Home() {
         <Input
           type="email"
           placeholder="Email"
-          value={form.email}
           onChange={e => setForm({ ...form, email: e.target.value })}
         />
         <Input
           type="password"
           placeholder="Senha"
-          value={form.password}
           onChange={e => setForm({ ...form, password: e.target.value })}
         />
         <div className="flex w-full justify-center">
