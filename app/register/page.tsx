@@ -42,7 +42,6 @@ export default function Page() {
             key={key}
             type="text"
             placeholder={key}
-            value={form[key as keyof typeof form]}
             onChange={e => setForm({ ...form, [key]: e.target.value })}
           />
         ))}
