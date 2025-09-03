@@ -4,8 +4,9 @@ import Form from '@/components/Form'
 import Input from '@/components/Input'
 import LinkNav from '@/components/LinkNav'
 import Logo from '@/components/Logo'
+import { Failed } from '@/components/Popup'
 import { apiRequest } from '@/lib/api'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 //import Login from './login/page'
 
 interface User {
@@ -20,15 +21,8 @@ interface User {
 }
 
 export default function Home() {
-  const [users, setUsers] = useState<User[]>([])
   const [form, setForm] = useState({ email: '', password: '' })
   const [message, setMessage] = useState('')
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/users')
-      .then(res => res.json())
-      .then(data => setUsers(data))
-  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -36,7 +30,7 @@ export default function Home() {
     if (res.token) {
       localStorage.setItem('token', res.token)
       localStorage.setItem('email', form.email)
-      setMessage(res.error ? res.error : `Bem-vindo, ${res.firstName}!`)
+      setMessage(res.error ? res.error : '')
       window.location.href = '/home'
     } else {
       setMessage(res.error ? res.error : 'Erro desconhecido')
@@ -67,7 +61,7 @@ export default function Home() {
           <Button>Entrar</Button>
         </div>
       </Form>
-      {message && <p className="mt-4">{message}</p>}
+      {message && <Failed>{message}</Failed>}
 
       <span className="text-sm text-gray-500 py-8">
         Não tem uma conta? <LinkNav href="/register">Cadastre-se</LinkNav>

@@ -7,22 +7,18 @@ import Input from '@/components/Input'
 import Logo from '@/components/Logo'
 import Form from '@/components/Form'
 import { useAuth } from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
   useAuth()
-  const [form, setForm] = useState({ email: '', inputEmail: '', value: 0 })
-  const [message, setMessage] = useState('')
+  const router = useRouter()
+  const [form, setForm] = useState({ email: '', value: 0 })
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const res = await apiRequest('/transfer', 'POST', form)
-    setMessage(
-      res.error
-        ? res.error
-        : `Transferência concluída! Saldo remetente: R$${res.from.balance}`
-    )
     if (!res.error) {
-      window.location.href = '/success'
+      router.replace('/success')
       window.sessionStorage.setItem('typeAction', 'Transferência')
     }
   }
@@ -41,8 +37,7 @@ export default function Page() {
         <Input
           type="email"
           placeholder="Email destinatário"
-          value={form.inputEmail}
-          onChange={e => setForm({ ...form, inputEmail: e.target.value })}
+          onChange={e => setForm({ ...form, email: e.target.value })}
         />
         <label htmlFor="value" className="text-black">
           Valor
@@ -50,7 +45,6 @@ export default function Page() {
         <Input
           type="number"
           placeholder="Valor"
-          value={form.value}
           onChange={e =>
             setForm({ ...form, value: parseFloat(e.target.value) })
           }
@@ -60,7 +54,6 @@ export default function Page() {
           <LinkNav href="/home">Voltar</LinkNav>
         </div>
       </Form>
-      {message && <p className="mt-4">{message}</p>}
     </main>
   )
 }

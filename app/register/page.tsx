@@ -4,6 +4,7 @@ import Form from '@/components/Form'
 import Input from '@/components/Input'
 import LinkNav from '@/components/LinkNav'
 import Logo from '@/components/Logo'
+import { Failed, Success } from '@/components/Popup'
 import { apiRequest } from '@/lib/api'
 import { useState } from 'react'
 
@@ -21,6 +22,11 @@ export default function Page() {
     e.preventDefault()
     const res = await apiRequest('/register', 'POST', form)
     setMessage(res.error ? res.error : 'Usuário cadastrado com sucesso!')
+    if (message == 'Usuário cadastrado com sucesso!') {
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 2000)
+    }
   }
 
   return (
@@ -44,8 +50,10 @@ export default function Page() {
           <Button>Cadastrar</Button>
         </div>
       </Form>
-      {message && <p className="mt-4">{message}</p>}
-
+      {message == 'Usuário cadastrado com sucesso!' && (
+        <Success>{message}</Success>
+      )}
+      {message == 'Usuário já existe' && <Failed>{message}</Failed>}
       <span className="text-sm text-gray-500 py-8">
         Já tem uma conta? <LinkNav href="/">Faça login</LinkNav>
       </span>
