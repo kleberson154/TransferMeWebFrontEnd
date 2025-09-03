@@ -24,7 +24,7 @@ export default function Page() {
     e.preventDefault()
     const res = await apiRequest('/register', 'POST', form)
     setMessage(res.error ? res.error : 'Usuário cadastrado com sucesso!')
-    if (message == 'Usuário cadastrado com sucesso!') {
+    if (!res.error) {
       setTimeout(() => {
         router.push('/')
       }, 2000)
