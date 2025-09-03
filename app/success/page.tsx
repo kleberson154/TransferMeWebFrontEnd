@@ -3,10 +3,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import { useAuth } from '@/hooks/useAuth'
+import { useEffect, useState } from 'react'
 
 export default function Page() {
   useAuth()
-  const typeAction = window.sessionStorage.getItem('typeAction')
+  const [typeAction, setTypeAction] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setTypeAction(window.sessionStorage.getItem('typeAction'))
+    }
+  }, [])
 
   return (
     <main className="p-6 flex flex-col items-center justify-start min-h-screen bg-indigo-50 text-white py-16">
@@ -20,7 +27,7 @@ export default function Page() {
         />
         <h1 className="text-4xl font-bold text-indigo-400 mt-8">Sucesso!</h1>
         <p className="text-sm text-black py-8 ">
-          {typeAction} realizado com sucesso!
+          {typeAction ?? ''} realizado com sucesso!
         </p>
         <Link
           href="/home"
