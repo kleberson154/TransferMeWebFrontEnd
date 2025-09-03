@@ -6,9 +6,11 @@ import LinkNav from '@/components/LinkNav'
 import Logo from '@/components/Logo'
 import { Failed, Success } from '@/components/Popup'
 import { apiRequest } from '@/lib/api'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function Page() {
+  const router = useRouter()
   const [form, setForm] = useState({
     email: '',
     senha: '',
@@ -24,7 +26,7 @@ export default function Page() {
     setMessage(res.error ? res.error : 'Usuário cadastrado com sucesso!')
     if (message == 'Usuário cadastrado com sucesso!') {
       setTimeout(() => {
-        window.location.href = '/'
+        router.push('/')
       }, 2000)
     }
   }
